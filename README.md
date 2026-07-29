@@ -6,6 +6,8 @@ volume forward and inspect it with orbit, pan, and zoom.
 
 Vanilla Three.js, ES modules, no build step.
 
+**Live: [elijahmugo-lab.github.io/book3D](https://elijahmugo-lab.github.io/book3D/)**
+
 ## Run it
 
 ```bash
