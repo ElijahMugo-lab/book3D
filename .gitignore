@@ -1,0 +1,15 @@
+# Dependencies. There are none at runtime; package.json exists for the tooling
+# scripts only. vendor/ is deliberately committed: the pinned Three.js build is
+# what the import map resolves against, so the site is broken without it.
+node_modules/
+
+# Deploy tooling
+.netlify/
+.vercel/
+
+# Logs and OS noise
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+desktop.ini

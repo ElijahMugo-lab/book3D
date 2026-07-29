@@ -1,0 +1,604 @@
+/* The Complete Shelf
+   Warm editorial minimalism. Cream paper, walnut, ink, and one accent: the
+   antique gold of the foil stamped into the covers. EB Garamond is used
+   throughout, self hosted. Corner radius is a single 4px scale everywhere. */
+
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('assets/fonts/eb-garamond-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('assets/fonts/eb-garamond-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
+
+  --paper: #e6dfd1;
+  --scrim: rgb(247 242 233 / 0.93);
+  --scrim-edge: rgb(58 44 26 / 0.14);
+  --ink: #241d14;
+  --ink-soft: #4a4034;
+  --ink-faint: #6d6153;
+  /* Darkened until paper text on an accent fill clears WCAG AA at 5.4:1. */
+  --accent: #6d5430;
+  --accent-mark: #8a6c3d;
+
+  --radius: 4px;
+  --pad: clamp(1rem, 3.1vw, 2.4rem);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --speed: 220ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #191510;
+    --scrim: rgb(29 24 18 / 0.9);
+    --scrim-edge: rgb(226 206 168 / 0.16);
+    --ink: #f2ebdd;
+    --ink-soft: #c9bfae;
+    --ink-faint: #9b917f;
+    --accent: #d3ae74;
+    --accent-mark: #c9a568;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--serif);
+  color: var(--ink);
+  background: var(--paper);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* --------------------------------------------------------------------------
+   Stage
+   -------------------------------------------------------------------------- */
+
+.stage {
+  position: fixed;
+  inset: 0;
+  min-height: 100dvh;
+}
+
+.stage__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: grab;
+  outline: none;
+}
+
+.stage__canvas.is-over-volume {
+  cursor: pointer;
+}
+
+.stage__canvas.is-dragging {
+  cursor: grabbing;
+}
+
+.stage__canvas:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -4px;
+}
+
+/* Focus, not decoration: the corners fall away so the centred volume holds the
+   eye, and it deepens while a volume is under inspection. */
+.stage__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 88% at 50% 46%,
+    rgb(0 0 0 / 0) 42%,
+    rgb(28 20 10 / 0.2) 78%,
+    rgb(24 17 8 / 0.4) 100%
+  );
+  opacity: 0.75;
+  transition: opacity var(--speed) var(--ease);
+}
+
+.mode-inspect .stage__vignette {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Wordmark
+   -------------------------------------------------------------------------- */
+
+/* The wordmark can land over walnut, where ink alone would not carry, so it
+   sits on the same scrim as the other panels rather than on a glow. */
+.wordmark {
+  position: absolute;
+  top: max(var(--pad), env(safe-area-inset-top));
+  left: max(var(--pad), env(safe-area-inset-left));
+  padding: 0.42rem 0.85rem;
+  background: var(--scrim);
+  border: 1px solid var(--scrim-edge);
+  border-radius: var(--radius);
+  backdrop-filter: blur(14px) saturate(112%);
+  -webkit-backdrop-filter: blur(14px) saturate(112%);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .wordmark {
+    background: var(--paper);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+.wordmark__title {
+  margin: 0;
+  font-size: clamp(1rem, 1.7vw, 1.18rem);
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   Volume card
+   -------------------------------------------------------------------------- */
+
+.volume {
+  position: absolute;
+  right: max(var(--pad), env(safe-area-inset-right));
+  bottom: max(var(--pad), env(safe-area-inset-bottom));
+  width: min(25rem, calc(100vw - var(--pad) * 2));
+  padding: clamp(1.1rem, 2vw, 1.6rem);
+  background: var(--scrim);
+  border: 1px solid var(--scrim-edge);
+  border-radius: var(--radius);
+  backdrop-filter: blur(14px) saturate(112%);
+  -webkit-backdrop-filter: blur(14px) saturate(112%);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .volume {
+    background: var(--paper);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+.volume__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0 0 0.55rem;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.volume__divider {
+  width: 1px;
+  height: 0.75em;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.volume__title {
+  margin: 0;
+  font-size: clamp(1.55rem, 3.1vw, 2.2rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+
+.volume__attribution {
+  margin: 0.3rem 0 0;
+  font-size: 1.02rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.volume__note {
+  margin: 0.85rem 0 0;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 42ch;
+}
+
+.volume__spec {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem 1.2rem;
+  margin: 1rem 0 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--scrim-edge);
+}
+
+.volume__spec dt {
+  margin: 0;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--ink-faint);
+}
+
+.volume__spec dd {
+  margin: 0.1rem 0 0;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.volume__hint {
+  margin: 0.9rem 0 0;
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--ink-faint);
+}
+
+.volume__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+}
+
+/* Browse shows the opening action, inspection shows the way back. */
+.mode-browse .volume__hint,
+.mode-browse [data-role='close'] {
+  display: none;
+}
+
+.mode-inspect [data-role='open'] {
+  display: none;
+}
+
+.mode-transition .volume__actions {
+  visibility: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.45rem 1.05rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition:
+    background-color var(--speed) var(--ease),
+    border-color var(--speed) var(--ease),
+    transform 120ms var(--ease);
+}
+
+.button--primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.button--primary:hover {
+  background: var(--accent);
+}
+
+.button--ghost {
+  background: transparent;
+  border-color: var(--scrim-edge);
+  color: var(--ink);
+}
+
+.button--ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button:focus-visible,
+.stepper:focus-visible,
+.rail__tick:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.icon {
+  width: 1.05em;
+  height: 1.05em;
+  flex: none;
+}
+
+/* --------------------------------------------------------------------------
+   Browse bar
+   -------------------------------------------------------------------------- */
+
+.browse-bar {
+  position: absolute;
+  left: max(var(--pad), env(safe-area-inset-left));
+  bottom: max(var(--pad), env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.5rem;
+  background: var(--scrim);
+  border: 1px solid var(--scrim-edge);
+  border-radius: var(--radius);
+  backdrop-filter: blur(14px) saturate(112%);
+  -webkit-backdrop-filter: blur(14px) saturate(112%);
+  transition:
+    opacity var(--speed) var(--ease),
+    visibility var(--speed) var(--ease);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .browse-bar {
+    background: var(--paper);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+.mode-inspect .browse-bar,
+.mode-transition .browse-bar {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: color var(--speed) var(--ease);
+}
+
+.stepper:hover {
+  color: var(--accent);
+}
+
+.stepper .icon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+/* The rail is a position marker, one tick per volume. The filled tick is real
+   state, not decoration. */
+.rail {
+  display: flex;
+  align-items: center;
+}
+
+.rail__tick {
+  width: 14px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.rail__tick::before {
+  content: '';
+  width: 1px;
+  height: 13px;
+  background: var(--ink);
+  opacity: 0.34;
+  transition:
+    height var(--speed) var(--ease),
+    width var(--speed) var(--ease),
+    background-color var(--speed) var(--ease),
+    opacity var(--speed) var(--ease);
+}
+
+.rail__tick:hover::before {
+  opacity: 0.75;
+  height: 17px;
+}
+
+.rail__tick[aria-current='true']::before {
+  width: 2px;
+  height: 22px;
+  background: var(--accent-mark);
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Loading and error status
+   -------------------------------------------------------------------------- */
+
+.status {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(2.5rem, 12vh, 6rem);
+  transform: translateX(-50%);
+  width: min(20rem, calc(100vw - var(--pad) * 2));
+  text-align: center;
+  transition: opacity 320ms var(--ease);
+}
+
+body:not(.is-loading):not(.has-error) .status {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.status__label {
+  margin: 0 0 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.status__track {
+  height: 1px;
+  background: var(--scrim-edge);
+  overflow: hidden;
+}
+
+.status__fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent-mark);
+  transition: width 260ms var(--ease);
+}
+
+body.has-error .status__label {
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+body.has-error .status__track {
+  display: none;
+}
+
+/* The interface stays out of the way until the shelf is standing. */
+body.is-loading .volume,
+body.is-loading .browse-bar,
+body.is-loading .wordmark,
+body.has-error .volume,
+body.has-error .browse-bar {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.volume,
+.wordmark {
+  transition:
+    opacity 520ms var(--ease),
+    visibility 520ms var(--ease);
+}
+
+.live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.noscript {
+  position: absolute;
+  inset: auto 0 0;
+  margin: 0;
+  padding: var(--pad);
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+/* --------------------------------------------------------------------------
+   Narrow viewports
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 820px) {
+  .volume {
+    left: max(var(--pad), env(safe-area-inset-left));
+    right: max(var(--pad), env(safe-area-inset-right));
+    bottom: calc(max(var(--pad), env(safe-area-inset-bottom)) + 58px + 0.6rem);
+    width: auto;
+  }
+
+  .browse-bar {
+    right: max(var(--pad), env(safe-area-inset-right));
+    justify-content: center;
+  }
+
+  .rail__tick {
+    width: 11px;
+  }
+
+  /* On a phone the card keeps the identifying lines; the longer reading moves
+     into the inspection state where there is room for it. */
+  .mode-browse .volume__note,
+  .mode-browse .volume__spec {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .rail__tick {
+    width: 9px;
+  }
+
+  .stepper {
+    width: 40px;
+  }
+
+  .volume__spec {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-height: 520px) {
+  .volume__note,
+  .volume__spec {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

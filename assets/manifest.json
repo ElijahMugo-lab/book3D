@@ -1,0 +1,408 @@
+{
+  "pack": {
+    "id": "complete-shelf-hardcovers",
+    "title": "The Complete Shelf: nineteen clothbound hardcovers",
+    "source": "procedural",
+    "version": 1,
+    "assetRoot": "assets/mint",
+    "note": "src is null while an entry is served by its procedural fallback. Point src at a file under assetRoot and the loader uses that instead, with no scene changes."
+  },
+  "shared": {
+    "cloth": {
+      "src": null,
+      "normalSrc": null,
+      "fallback": "procedural:cloth"
+    },
+    "page": {
+      "src": null,
+      "fallback": "procedural:page"
+    },
+    "wood": {
+      "src": null,
+      "normalSrc": null,
+      "fallback": "procedural:wood"
+    }
+  },
+  "items": [
+    {
+      "id": "genesis",
+      "title": "Genesis",
+      "format": "folio",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#genesis"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#genesis"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "iliad",
+      "title": "The Iliad",
+      "format": "quarto",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#iliad"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#iliad"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "psalms",
+      "title": "Psalms",
+      "format": "octavo",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#psalms"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#psalms"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "odyssey",
+      "title": "The Odyssey",
+      "format": "quarto",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#odyssey"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#odyssey"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "job",
+      "title": "Job",
+      "format": "octavo",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#job"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#job"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "republic",
+      "title": "The Republic",
+      "format": "octavo",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#republic"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#republic"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "proverbs",
+      "title": "Proverbs",
+      "format": "pocket",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#proverbs"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#proverbs"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "aeneid",
+      "title": "The Aeneid",
+      "format": "quarto",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#aeneid"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#aeneid"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "ecclesiastes",
+      "title": "Ecclesiastes",
+      "format": "pocket",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#ecclesiastes"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#ecclesiastes"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "meditations",
+      "title": "Meditations",
+      "format": "pocket",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#meditations"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#meditations"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "isaiah",
+      "title": "Isaiah",
+      "format": "quarto",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#isaiah"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#isaiah"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "histories",
+      "title": "The Histories",
+      "format": "folio",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#histories"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#histories"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "john",
+      "title": "The Gospel of John",
+      "format": "octavo",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#john"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#john"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "metamorphoses",
+      "title": "Metamorphoses",
+      "format": "quarto",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#metamorphoses"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#metamorphoses"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "romans",
+      "title": "Romans",
+      "format": "pocket",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#romans"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#romans"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "confessions",
+      "title": "Confessions",
+      "format": "octavo",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#confessions"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#confessions"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "ethics",
+      "title": "Nicomachean Ethics",
+      "format": "octavo",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#ethics"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#ethics"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "revelation",
+      "title": "Revelation",
+      "format": "octavo",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#revelation"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#revelation"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    },
+    {
+      "id": "divine-comedy",
+      "title": "The Divine Comedy",
+      "format": "folio",
+      "spine": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:spine#divine-comedy"
+      },
+      "cover": {
+        "src": null,
+        "ormSrc": null,
+        "fallback": "procedural:cover#divine-comedy"
+      },
+      "model": {
+        "src": null,
+        "fallback": "procedural:hardcover",
+        "extensionsRequired": []
+      }
+    }
+  ]
+}

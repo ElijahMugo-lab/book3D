@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>The Complete Shelf</title>
+    <meta
+      name="description"
+      content="A continuous shelf of nineteen clothbound hardcovers, ten works of classical literature and nine books of the Bible, browsed and inspected in three dimensions."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="preload" as="font" type="font/woff2" href="assets/fonts/eb-garamond-normal.woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Three.js r185, vendored under vendor/three so the experience has no
+         third party runtime dependency. See README for how to update it. -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three/build/three.module.js",
+          "three/addons/": "./vendor/three/examples/jsm/"
+        }
+      }
+    </script>
+    <link rel="modulepreload" href="vendor/three/build/three.module.js" />
+    <link rel="modulepreload" href="vendor/three/build/three.core.js" />
+  </head>
+  <body class="is-loading mode-browse">
+    <main class="stage">
+      <canvas
+        id="scene"
+        class="stage__canvas"
+        tabindex="0"
+        role="application"
+        aria-label="The shelf. Drag or use the left and right arrow keys to browse the nineteen volumes. Press Enter to open the centred volume."
+      ></canvas>
+      <div class="stage__vignette" aria-hidden="true"></div>
+
+      <header class="wordmark">
+        <h1 class="wordmark__title">The Complete Shelf</h1>
+      </header>
+
+      <!-- Volume detail. Doubles as the live region announcing the centred volume. -->
+      <section class="volume" aria-labelledby="volume-title">
+        <p class="volume__meta">
+          <span data-role="collection"></span>
+          <span class="volume__divider" aria-hidden="true"></span>
+          <span data-role="era"></span>
+        </p>
+        <h2 class="volume__title" id="volume-title" data-role="title"></h2>
+        <p class="volume__attribution" data-role="attribution"></p>
+        <p class="volume__note" data-role="note"></p>
+        <dl class="volume__spec">
+          <div>
+            <dt>Format</dt>
+            <dd data-role="format"></dd>
+          </div>
+          <div>
+            <dt>Cloth</dt>
+            <dd data-role="cloth-name"></dd>
+          </div>
+        </dl>
+
+        <p class="volume__hint">
+          Drag to orbit. Scroll to zoom. Hold the right button to pan.
+        </p>
+
+        <div class="volume__actions">
+          <button class="button button--primary" type="button" data-role="open">
+            <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+              <path
+                d="M152,112a8,8,0,0,1-8,8H120v24a8,8,0,0,1-16,0V120H80a8,8,0,0,1,0-16h24V80a8,8,0,0,1,16,0v24h24A8,8,0,0,1,152,112Zm77.66,117.66a8,8,0,0,1-11.32,0l-50.06-50.07a88.11,88.11,0,1,1,11.31-11.31l50.07,50.06A8,8,0,0,1,229.66,229.66ZM112,184a72,72,0,1,0-72-72A72.08,72.08,0,0,0,112,184Z"
+              />
+            </svg>
+            <span>Open volume</span>
+          </button>
+          <button class="button button--ghost" type="button" data-role="close">
+            <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+              <path
+                d="M232,144a64.07,64.07,0,0,1-64,64H80a8,8,0,0,1,0-16h88a48,48,0,0,0,0-96H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48A8,8,0,0,1,85.66,45.66L51.31,80H168A64.07,64.07,0,0,1,232,144Z"
+              />
+            </svg>
+            <span>Return to shelf</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Browsing controls. The rail marks the position of all nineteen volumes. -->
+      <div class="browse-bar">
+        <button class="stepper" type="button" data-role="prev" aria-label="Previous volume">
+          <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path
+              d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"
+            />
+          </svg>
+        </button>
+
+        <div class="rail" role="group" aria-label="Shelf position" data-role="rail"></div>
+
+        <button class="stepper" type="button" data-role="next" aria-label="Next volume">
+          <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path
+              d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div class="status" role="status" data-role="status">
+        <p class="status__label" data-role="status-label">Binding the shelf</p>
+        <div class="status__track" aria-hidden="true">
+          <div class="status__fill" data-role="status-fill"></div>
+        </div>
+      </div>
+
+      <p class="live" aria-live="polite" data-role="live"></p>
+    </main>
+
+    <noscript>
+      <p class="noscript">
+        This shelf is rendered in three dimensions and needs JavaScript. The nineteen volumes are
+        ten works of classical literature and nine books of the Bible.
+      </p>
+    </noscript>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

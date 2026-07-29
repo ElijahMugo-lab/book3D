@@ -1,0 +1,63 @@
+# Static site, no build step. The repository root is what gets published.
+
+[build]
+  publish = "."
+  command = ""
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Fonts and icons are content addressed by their filename and never change in
+# place, so they can be cached hard.
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Three.js is pinned to one release and only changes by a deliberate
+# re-download, so it is safe to cache for a year.
+[[headers]]
+  for = "/vendor/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# The manifest is the asset seam. It has to be re-read when it changes, or a
+# newly minted pack would not be picked up.
+[[headers]]
+  for = "/assets/manifest.json"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Modules are edited in place during development, so revalidate rather than
+# serving a stale graph against a fresh index.html.
+[[headers]]
+  for = "/src/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Project tooling and notes do not need to be reachable on the deployed site.
+[[redirects]]
+  from = "/scripts/*"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/package.json"
+  to = "/index.html"
+  status = 404

@@ -1,0 +1,11 @@
+{
+  "name": "the-complete-shelf",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A continuous 3D shelf of nineteen clothbound hardcovers: ten works of classical literature and nine books of the Bible.",
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve . -l 5173",
+    "check": "node scripts/check.mjs"
+  }
+}
